@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.esrx.sample;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
-@Controller
-public class HomeController {
+@Component
+public class DatabaseLoader implements CommandLineRunner {
 
-	@RequestMapping(value = "/")
-	public String index() {
-		return "index";
+	private final EmployeeRepository repository;
+
+	@Autowired
+	public DatabaseLoader(EmployeeRepository repository) {
+		this.repository = repository;
 	}
 
-	private static int count= 0;
-	@RequestMapping(value = "/sample")
-	@ResponseBody
-	public ResponseEntity<Employee> getSample(){
-		return ResponseEntity.ok(new Employee("Kishore", "Kolluru", String.format("He is a good guy %s times", ++count)));
+	@Override
+	public void run(String... strings) throws Exception {
+		this.repository.save(new Employee("Frodo", "Baggins", "ring bearer"));
 	}
 }
 // end::code[]

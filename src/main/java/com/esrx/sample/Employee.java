@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.esrx.sample;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import lombok.Data;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
-@Component
-public class DatabaseLoader implements CommandLineRunner {
+@Data
+@Entity
+public class Employee {
 
-	private final EmployeeRepository repository;
+	private @Id @GeneratedValue Long id;
+	private String firstName;
+	private String lastName;
+	private String description;
 
-	@Autowired
-	public DatabaseLoader(EmployeeRepository repository) {
-		this.repository = repository;
-	}
+	private Employee() {}
 
-	@Override
-	public void run(String... strings) throws Exception {
-		this.repository.save(new Employee("Frodo", "Baggins", "ring bearer"));
+	public Employee(String firstName, String lastName, String description) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.description = description;
 	}
 }
 // end::code[]

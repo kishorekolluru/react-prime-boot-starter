@@ -13,20 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.greglturnquist.payroll;
+package com.esrx.sample;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
-@SpringBootApplication
-public class ReactAndSpringDataRestApplication {
+@Controller
+public class HomeController {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ReactAndSpringDataRestApplication.class, args);
+	@RequestMapping(value = "/")
+	public String index() {
+		return "index";
+	}
+
+	private static int count= 0;
+	@RequestMapping(value = "/sample")
+	@ResponseBody
+	public ResponseEntity<Employee> getSample(){
+		return ResponseEntity.ok(new Employee("Kishore", "Kolluru", String.format("He is a good guy %s times", ++count)));
 	}
 }
 // end::code[]
